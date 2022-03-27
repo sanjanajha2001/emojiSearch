@@ -1,25 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import React ,{Component} from 'react';
+import Emoji from './Emoji.json'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      searchData: " ",
+    }
+  }
+  search = (event) => {
+    this.setState({
+      searchData: event.target.value
+    })
+  }
+  render() {
+    return (
+      <div>
+        <h1 className='heading'>Emoji Search</h1>
+        <input type="text"className="inputText" onChange={this.search} placeholder="search" />
+        {Emoji.filter((data)=>{
+          return(data.symbol.toLowerCase().includes(this.state.searchData.toLowerCase())
+          ||data.keywords.toLowerCase().includes(this.state.searchData.toLowerCase())
+          ||data.title.toLowerCase().includes(this.state.searchData.toLowerCase()))
+        })
+        .map(data=>{
+          return(
+            <ul className='pic'>
+              <div key={data.symbol}>
+              {data.symbol}
+              {data.title}
+            </div>
+            </ul>
+            
+          )
+        })}
+
+      </div>
+    )}
 }
-
 export default App;
+
+
+	
+	
+	
+
